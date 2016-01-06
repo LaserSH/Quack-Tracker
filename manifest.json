@@ -4,12 +4,22 @@
   "name": "Quack Tracker",
   "description": "This chrome extension trackes the time users spent on each\n
                   page and visualize it.",
-  "version": "0.1",
+  "version": "0.2",
 
   "icons": {
     "48": "img/icon48.png",
     "128": "img/icon128.png"
   },
+
+  "background": {
+    "scripts": [ "js/config.js", "js/sites.js","js/tracker.js","js/background.js"]
+  },
+
+  "permissions": [
+    "alarms",
+    "tabs",
+    "idle"
+  ],
 
   "browser_action": {
     "default_icon": "img/icon128.png",
@@ -19,14 +29,10 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["js/jquery-2.1.4.min.js", "js/content.js"]
+      "js": ["js/jquery-2.1.4.min.js"]
     }
   ],
 
-  "options_page": "options.html",
-  
-  "permissions": [
-    "activeTab",
-    "https://ajax.googleapis.com/"
-  ]
+  "options_page": "options.html"
+
 }

@@ -1,4 +1,12 @@
 .container {
-  min-width: 300px;
+  min-width: 400px;
   text-align: center;
+}
+
+#stats th {
+  text-align: center;
+}
+
+#total-time {
+  margin-top: -5px;
 }

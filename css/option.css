@@ -1,0 +1,13 @@
+.row {
+  text-align: center;
+  width: 800px;
+  margin: 0 auto;
+}
+
+section {
+  margin-bottom: 5px;
+}
+
+.control-label {
+  padding-top: 6px;
+}

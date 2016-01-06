@@ -6,23 +6,75 @@
     <meta author="LaserSH">
 
     <!-- Link CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/popup.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/option.css" rel="stylesheet">
     <title>Quack Tracker</title>
 
 </head>
 <body>
+  <!--
     <header>
-        <div class="container">
-            <div class="title"><h2>Quack Tracker</h2></div>
+        <div class="container row">
+            <div class="title"><h2>Quack Tracker Configuration</h2></div>
         </div>
     </header>
+  -->
+    <section id="ignore-sites">
+        <div class="row">
+            <h3>Manage Ignored Sites</h3>
+            <div class="input-group">
+                <input type="text" class="form-control" id="new_ignored_site"
+                  placeholder="Include http:// or https:// prefix.">
+                  <span class="input-group-btn">
+                      <button id="add_ignored" class="btn-default btn">Add</button>
+                  </span>
+            </div>
+            <div class="display-sites">
+                <div class="form-group">
+                <select class="form-control" id="ignored_sites" multiple size="10"> </select>
+                </div>
+                <button class="btn-default btn" id="remove_ignored">Remove Selected</button>
+            </div>
+        </div>
+    </section>
 
+    <section id="clear-interval">
+        <div class="row form-group">
+            <h3> Change Stats Clearance Interval </h3>
+            <label class="col-sm-3 control-label">Clear Statistics Every</label>
+            <div class="col-sm-9">
+                  <select class="form-control" id="clear_stats_interval">
+                    <option value="0">never</option>
+                    <option value="3600">Hour</option>
+                    <option value="86400">Day</option>
+                    <option value="604800">Week</option>
+                  </select>
+            </div>
+        </div>
+    </section>
+
+    <section id="list-display-number">
+        <div class="row form-group">
+            <h3> Change List Display Length </h3>
+            <label class="col-sm-3 control-label">Number shown in popup</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                  <input type="text" class="form-control" id="new_list_number"
+                    placeholder="Enter a nonzero natural number, now it is">
+                    <span class="input-group-btn">
+                        <button id="set_list_number" class="btn-default btn">Set</button>
+                    </span>
+              </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Load js -->
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script stc="js/popup.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/sites.js"></script>
+    <script src="js/option.js"></script>
 </body>
 
 </html>

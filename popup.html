@@ -14,16 +14,17 @@
 <body>
     <header>
         <div class="container">
-            <div class="title"><h2>Quack Tracker</h2></div>
+            <div class="title"><h3>Quack Tracker</h3></div>
         </div>
     </header>
 
     <section id="intro">
         <div class="container">
             <div class="intro-heading">
-                <h4>Time spent online today: </h4>
+                <h4>Time spent online today</h4>
+                <h2 id="total-time"></h2>
             </div>
-            <div class="intro-stat"> </div>
+
         </div>
     </section>
 
@@ -32,28 +33,47 @@
             <div class="row">
                 <ul class="list-inline buttons">
                     <li>
-                        <button id="visualize" class="but-def">
-                          Visualize
-                        </button>
+                        <button id="visualize" class="btn-default btn"> Visualize </button>
                     </li>
                     <li>
-                        <button id="options" class="but-def">
-                            Option
-                        </button>
+                        <button id="options" class="btn-default btn"> Option </button>
                     </li>
                     <li>
-                        <button id="show-List" class="but-def">
-                            Show List
-                        </button>
+                        <button id="clear" class="btn-default btn"> Clear </button>
+                    </li>
+                    <li>
+                        <button id="show-list" class="btn-default btn"> Show List </button>
                     </li>
                 </ul>
             </div>
         </div>
     </section>
 
+    <section id="list">
+        <div class="container">
+          <div class="intro-clear">
+              <div id="lastClear"></div>
+              <div id="nextClear"></div>
+          </div>
+            <table id="stats" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Site</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Percent</th>
+                    </tr>
+                </thead>
+                <tbody id="stats_tbody"></tbody>
+            </table>
+        </div>
+    </section>
+
+
     <!-- Load js -->
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/sites.js"></script>
     <script src="js/popup.js"></script>
 </body>
 
