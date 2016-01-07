@@ -7,21 +7,33 @@
 
     <!-- Link CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/popup.css" rel="stylesheet">
+    <link href="/css/visualization.css" rel="stylesheet">
     <title>Quack Tracker</title>
 
 </head>
 <body>
     <header>
         <div class="container">
-            <div class="title"><h2>Quack Tracker</h2></div>
+            <div class="row">
+                <div class="title"><h2>Quack Tracker</h2></div>
+            </div>
         </div>
     </header>
 
+    <section id="main-graph">
+        <div class="container">
+            <div class="row">
+                <div id="chart2"> </div>
+                <div id="chart1"> </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Load js -->
     <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/d3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script stc="js/popup.js"></script>
+    <script src="js/visualization.js"></script>
 </body>
 
 </html>

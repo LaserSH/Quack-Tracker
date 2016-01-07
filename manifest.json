@@ -4,7 +4,7 @@
   "name": "Quack Tracker",
   "description": "This chrome extension trackes the time users spent on each\n
                   page and visualize it.",
-  "version": "0.2",
+  "version": "1.0",
 
   "icons": {
     "48": "img/icon48.png",

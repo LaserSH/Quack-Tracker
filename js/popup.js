@@ -43,7 +43,7 @@ function secondsToString(seconds) {
     s = s + " " + hours + ":";
   }
   if (mins) {
-    s = s + " " + padNumberBy2(mins) + ":";
+    s = s + "" + padNumberBy2(mins) + ":";
   }
   if (secs) {
     s = s + "" + padNumberBy2(secs.toFixed(0)) + "";
@@ -126,8 +126,10 @@ function addLocalDisplay() {
 
    var removeImage = document.createElement('span');
    $(removeImage).addClass('glyphicon glyphicon-remove');
-   $(removeImage).attr("aria-hidden", "true");
-   $(removeImage).attr("style", "color: red");
+   $(removeImage).attr({
+     "style": "color: red",
+     "aria-hidden": "true"
+   });
    removeImage.title = "Remove and stop tracking.";
    removeImage.width = 15;
    removeImage.height = 15;
