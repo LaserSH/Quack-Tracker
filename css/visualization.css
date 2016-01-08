@@ -24,8 +24,8 @@ body {
     font-weight: 300;
     font-size: 1.2em;
     line-height: 1.2em;
-    background: #FDF6E3;
-    color: #475B62;
+    /*background: #FDF6E3;*/
+    /*color: #475B62;*/
     text-align: center;
 }
 
@@ -41,8 +41,8 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: .4em;
 }
 
-div {
-    margin-bottom: 10px;
+.chart {
+  margin-top: 5px;
 }
 
 p {

@@ -1,56 +1,101 @@
 
+//Function for click and toggle between pie view and column view
+$(document).ready(function() {
 
+    initialize();
+
+    $("#column-view").click(function(){
+        $('#pie-chart svg').remove();
+        $('#pieToolTip').remove();
+        createColumnChart();
+    });
+
+    $("#pie-view").click(function(){
+        $('#column-chart svg').remove();
+        $('#columnToolTip').remove();
+        createPieChart();
+    });
+});
+
+// Below are for the data visualization part using json
+var items;
 var timeArray = [];
 var domainArray = [];
 
-var data = JSON.parse(localStorage.sites);
+// Data import and processing part
+function initialize(){
 
-// Create items array
-var items = Object.keys(data).map(function(key) {
-    return [key, data[key]];
-});
+    var data = JSON.parse(localStorage.sites);
+
+    // Create items array
+    items = Object.keys(data).map(function(key) {
+        return [key, data[key]];
+    });
 
 // Sort the array based on the second element
-items.sort(function(first, second) {
-    return second[1] - first[1];
-});
-items = items.filter(function(item) {
-    return item[1] >= 60;
-});
+    items.sort(function(first, second) {
+        return second[1] - first[1];
+    });
 
-for(var i = 0; i < items.length; i++) {
-    timeArray.push(items[i][1]);
-    domainArray.push(items[i][0]);
+    if (items.length > 20) {
+        var otherTimeTotal = 0;
+        var length = items.length;
+        for(var i = 20; i < length; i++) {
+            otherTimeTotal += items[i][1];
+        }
+        items = items.slice(0,19);
+        items.push(["Others", otherTimeTotal]);
+    }
+
+    items.sort(function(first, second) {
+        return second[1] - first[1];
+    });
+
+    for(var i = 0; i < items.length; i++) {
+        timeArray.push(items[i][1]);
+        domainArray.push(items[i][0]);
+    }
 }
 
-var width = 400,
-    height = 400,
-    radius = 200,
-    colors = d3.scale.category20c();
+// Visualization for the pie view
+function createPieChart(){
+    var width = 400,
+        height = 400,
+        radius = 200,
+        donutRadius = 120;
+        colors = d3.scale.category20c();
 
-var pie = d3.layout.pie()
-    .value(function(d) {
-        return d[1];
-    })
+    var pie = d3.layout.pie()
+        .value(function(d) {
+            return d[1];
+        })
 
-var arc = d3.svg.arc()
-    .outerRadius(radius)
+    var arc = d3.svg.arc()
+        .innerRadius(donutRadius)
+        .outerRadius(radius)
 
-var myChart1 = d3.select('#chart1').append('svg')
-    .attr('width', width)
-    .attr('height', height)
-    .append('g')
-    .attr('transform', 'translate('+(width-radius)+','+(height-radius)+')')
-    .selectAll('path').data(pie(items))
-    .enter().append('g')
+    var tooltip = d3.select('body').append('div')
+        .attr('id', 'pieToolTip')
+        .style('position', 'absolute')
+        .style('padding', '0 10px')
+        .style('background', 'white')
+        .style('opacity', 0)
+
+    var pieChart = d3.select('#pie-chart').append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', 'translate('+(width-radius)+','+(height-radius)+')')
+        .selectAll('path').data(pie(items))
+        .enter().append('g')
         .attr('class', 'slice')
 
-var slices = d3.selectAll('g.slice')
+    var slices = d3.selectAll('g.slice')
         .append('path')
+        .attr('d', arc)
         .attr('fill', function(d, i) {
             return colors(i);
         })
-        .attr('d', arc)
         .on('mouseover', function(d,i) {
 
             tooltip.transition()
@@ -60,18 +105,32 @@ var slices = d3.selectAll('g.slice')
                 .style('left', (d3.event.pageX - 35) + 'px')
                 .style('top',  (d3.event.pageY - 30) + 'px')
 
-
             tempColor = this.style.fill;
             d3.select(this)
                 .style('opacity', .5)
                 .style('fill', 'yellow')
         })
-
         .on('mouseout', function(d) {
             d3.select(this)
                 .style('opacity', 1)
                 .style('fill', tempColor)
         })
+        .transition()
+          .duration(2000)
+          .attrTween("d", tweenPie);
+
+    function tweenPie(b) {
+        var i = d3.interpolate({startAngle: 0, endAngle: 0}, b);
+        return function(t) { return arc(i(t)); };
+    }
+
+    d3.select('#pie-chart').select('svg')
+        .append("svg:image")
+        .attr("xlink:href", "img/icon128.png")
+        .attr("x", "140")
+        .attr("y", "140")
+        .attr("width", "128")
+        .attr("height", "128");
 
 /*
 var text = d3.selectAll('g.slice')
@@ -87,36 +146,39 @@ var text = d3.selectAll('g.slice')
         return 'translate('+ arc.centroid(d)+')'
     });
 */
+}
 
-var margin = { top: 30, right: 30, bottom: 40, left:80 }
+// Below is for the column view.
+function createColumnChart(){
+    var margin = { top: 30, right: 30, bottom: 40, left:80 }
 
-var height = 400 - margin.top - margin.bottom,
-    width = 600 - margin.left - margin.right,
-    barWidth = 50,
-    barOffset = 5;
+    var height = 400 - margin.top - margin.bottom,
+        width = 600 - margin.left - margin.right,
+        barWidth = 50,
+        barOffset = 5;
 
-var tempColor;
+    var tempColor;
 
-var colors = d3.scale.linear()
-    .domain([0, timeArray.length*.33, timeArray.length*.66, timeArray.length])
-    .range(['#B58929','#C61C6F', '#268BD2', '#85992C'])
+    var colors = d3.scale.linear()
+        .domain([0, timeArray.length*.33, timeArray.length*.66, timeArray.length])
+        .range(['#B58929','#C61C6F', '#268BD2', '#85992C'])
 
-var yScale = d3.scale.linear()
+    var yScale = d3.scale.linear()
         .domain([0, d3.max(timeArray)])
         .range([0, height]);
 
-var xScale = d3.scale.ordinal()
+    var xScale = d3.scale.ordinal()
         .domain(d3.range(0, timeArray.length))
         .rangeBands([0, width], 0.2)
 
-var tooltip = d3.select('body').append('div')
+    var tooltip = d3.select('body').append('div')
+        .attr('id', 'columnToolTip')
         .style('position', 'absolute')
         .style('padding', '0 10px')
         .style('background', 'white')
         .style('opacity', 0)
 
-var myChart2 = d3.select('#chart2').append('svg')
-        .style('background', '#E7E0CB')
+    var columnChart = d3.select('#column-chart').append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
         .append('g')
@@ -155,7 +217,7 @@ var myChart2 = d3.select('#chart2').append('svg')
                 .style('fill', tempColor)
         })
 
-    myChart2.transition()
+    columnChart.transition()
         .attr('height', function(d) {
             return yScale(d);
         })
@@ -167,6 +229,14 @@ var myChart2 = d3.select('#chart2').append('svg')
         })
         .duration(1000)
         .ease('elastic')
+
+    d3.select('#column-chart').select('svg')
+        .append("svg:image")
+        .attr("xlink:href", "img/icon128.png")
+        .attr("x", "400")
+        .attr("y", "40")
+        .attr("width", "128")
+        .attr("height", "128");
 
     var vGuideScale = d3.scale.linear()
         .domain([0, d3.max(timeArray)])
@@ -196,3 +266,4 @@ var myChart2 = d3.select('#chart2').append('svg')
             .style({ fill: 'none', stroke: "#000"})
         hGuide.selectAll('line')
             .style({ stroke: "#000"})
+}
