@@ -2,7 +2,7 @@
 
 A chrome extension that tracks and visualizes the time you spent on each websites
 
-![Alt text](https://github.com/LaserSH/Quack-Tracker/img/screenshot.png)
+![Alt text](https://github.com/LaserSH/Quack-Tracker/blob/master/img/screenshot.png)
 
 The visualization part is implemented using [D3] (http://d3js.org/), and the functionality of tracking time is modified from [browser-time-tracker](https://github.com/navjagpal/browser-timetracker/)
 
