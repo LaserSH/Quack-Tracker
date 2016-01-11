@@ -9,9 +9,7 @@ The visualization part is implemented using [D3] (http://d3js.org/), and the fun
 
 ## Installation
 
-I plan not to publish this extension to chrome store, but you can download it by pasting this link to your brower
-
-<pre> https://github.com/LaserSH/Quack-Tracker/raw/master/Quack%20Tracker.crx </pre>
-
-And drag it into the window for Chrome to install it.
+I plan not to publish this extension to chrome store, but you can download it by using 
+<pre> git clone https://github.com/LaserSH/Quack-Tracker.git </pre>
+And then follow the instruction of [Load unpacked extension](https://developer.chrome.com/extensions/getstarted#unpacked)
 
